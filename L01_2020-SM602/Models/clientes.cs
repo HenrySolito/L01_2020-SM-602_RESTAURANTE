@@ -5,7 +5,7 @@ namespace L01_2020_SM602.Models
     {
         [Key]
         public int clienteId { get; set; }
-        public string nombreCLiente { get; set; }
+        public string nombreCliente { get; set; }
         public string direccion { get; set; }
     }
 }

@@ -16,6 +16,22 @@ namespace L01_2020_SM602.Controllers
             _restauranteContext= clientesContext;
         }
 
+        //Consultar Pedidos
+        [HttpGet]
+        [Route("GetAll")]
+        public IActionResult GetPedidos()
+        {
+            List<pedidos> listadoPedidos = (from e in _restauranteContext.pedidos
+                                            select e).ToList();
+
+            if(listadoPedidos.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(listadoPedidos);
+        }
+
+        //Agregar Pedido
         [HttpPost]
         [Route("Add")]
         public IActionResult nuevoPedido([FromBody] pedidos Npedido)
@@ -31,6 +47,8 @@ namespace L01_2020_SM602.Controllers
                 return BadRequest(ex.Message);
             }
         }
+       
+        //Actualizar Pedido
         [HttpPut]
         [Route("actualizar/{id}")]
         public IActionResult ActualizarPedido(int id, [FromBody] pedidos pedidoModificar)
@@ -44,7 +62,6 @@ namespace L01_2020_SM602.Controllers
                 return NotFound();
             }
             //Modificacion de los campos si encuentra el registro
-            pedidoActual.pedidoId= pedidoModificar.pedidoId;
             pedidoActual.motoristaId = pedidoModificar.motoristaId;
             pedidoActual.clienteId = pedidoModificar.motoristaId;
             pedidoActual.platoId = pedidoModificar.platoId;
@@ -57,6 +74,7 @@ namespace L01_2020_SM602.Controllers
             return Ok(pedidoModificar);
         }
 
+        //Eliminar Pedido
         [HttpDelete]
         [Route("eliminar/{id}")]
         public IActionResult EliminarPedido(int id)
@@ -76,7 +94,7 @@ namespace L01_2020_SM602.Controllers
 
             return Ok(pedido);
         }
-
+        //Pedido por ID Cliente
         [HttpGet]
         [Route("GetbyIdCliente/{id}")]
         public IActionResult GetPedidoCliente(int id)
@@ -92,6 +110,7 @@ namespace L01_2020_SM602.Controllers
             return Ok(pedido);
         }
 
+        //Pedido por ID Motorista
         [HttpGet]
         [Route("GetbyIdMotorista/{id}")]
         public IActionResult GetPedidoMotorista(int id)
